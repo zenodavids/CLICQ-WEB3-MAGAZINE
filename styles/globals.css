@@ -138,7 +138,6 @@ body::-webkit-scrollbar {
 .title-wrap .title {
   display: block;
   font-size: 7vw;
-  letter-spacing: -15px;
   padding-left: 30px;
   position: relative;
   color: #fecd70;
