@@ -10,7 +10,7 @@ CLICQ is a decentralized blog that allows users to create, edit, and update post
 
 ### Project Snapshot
 
-![HomePage view](blob:https://vercel.com/617c139f-ced0-47e8-b67b-278c6f10bedd)
+[HomePage view](https://media.licdn.com/dms/image/D4D2CAQHtA-RYTB8tiw/comment-image-shrink_8192_1280/0/1674243142221?e=1674849600&v=beta&t=FAafD6VR4BchMuM5YoFs1FF4ZSgFF9Nsp7D-oi15I4M)
 
 ### Project Website Link
 
@@ -18,9 +18,9 @@ CLICQ is a decentralized blog that allows users to create, edit, and update post
 
 ### Project Author
 
-Ezeanekwe Chidozie Zeno
-[Portofolio Website](https://chidozietech.netlify.app/)
-[GitHub Repo](https://github.com/zenodavids)
+- Ezeanekwe Chidozie Zeno
+- [Portofolio Website](https://chidozietech.netlify.app/)
+- [GitHub Repo](https://github.com/zenodavids)
 
 ### How to Install and Run the Project
 
@@ -84,8 +84,8 @@ npm run dev
 
 ### License
 
-This project is licensed under the **MIT** License.
-**Grandida** is a License partner.
+- This project is licensed under the **MIT** License.
+- **Grandida** is a License partner.
 
 ### Attribution
 
