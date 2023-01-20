@@ -27,7 +27,7 @@ CLICQ is a decentralized blog that allows users to create, edit, and update post
 - Clone the repository:
 
 ```s
-git clone https://github.com/zenodavids/CLICQ-WEB3-BLOG.git
+git clone https://github.com/zenodavids/CLICQ-WEB3-MAGAZINE.git
 ```
 
 - Install dependencies:
