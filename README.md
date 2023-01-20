@@ -10,15 +10,17 @@ CLICQ is a decentralized blog that allows users to create, edit, and update post
 
 ### Project Snapshot
 
+![HomePage view](blob:https://vercel.com/617c139f-ced0-47e8-b67b-278c6f10bedd)
+
 ### Project Website Link
 
-[Click here to view the blog live.](link to your portfolio or github profile)
+[Click here to view the blog live.](https://clicq-web3-magazine.vercel.app/)
 
 ### Project Author
 
 Ezeanekwe Chidozie Zeno
 [Portofolio Website](https://chidozietech.netlify.app/)
-[GitHub Repo](www.github.com/zenodavids)
+[GitHub Repo](https://github.com/zenodavids)
 
 ### How to Install and Run the Project
 
@@ -88,4 +90,5 @@ This project is licensed under the **MIT** License.
 ### Attribution
 
 Some parts of the code were adapted from OpenZeppelin
-**DO NOT USE WITHOUT THE PERMISSION OF GRANDIDA**
+
+> **DO NOT USE WITHOUT THE PERMISSION OF GRANDIDA**
