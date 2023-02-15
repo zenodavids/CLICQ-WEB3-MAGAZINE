@@ -69,7 +69,7 @@ npm run dev
 ### Usage
 
 - Connect your wallet to the application by clicking on the **Connect** Button at the top - right corner of the page.
-- Create a new post by clicking on the **Create Post** Button also at the top - right corner of the page(_This only shows up if you own the contract_).
+- Create a new post by clicking on the **Create Article** Button also at the top - right corner of the page(_This only shows up if you own the contract_).
 - Fill in the form with the title, content, and picture Banner for your post.
 - Click on the "Save" button to submit your post.
 - The post will be visible to on the homepage and can be edited or updated only by the owner of the contract.
