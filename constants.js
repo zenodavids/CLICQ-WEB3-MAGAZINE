@@ -1,18 +1,12 @@
 export const QUICKNODE_HTTP_URL =
   'https://delicate-cool-firefly.matic-testnet.discover.quiknode.pro/dbcca083d8775dc1f2dd9540c63768d0f55a6f68/'
 export const SMART_CONTRACT_ADDRESS =
-  '0xF249b348eB89084078CDfb02168974D21599B2aD'
+  '0xc68C6b31fB76D75BAaBDA03Cb86eE9D9c12B652A'
 export const OWNER_ADDRESS = '0xc8A81E39a7c656Be15FA062e5D57daD60304fE0D'
 
 export const SMART_CONTRACT_ABI = [
   {
-    inputs: [
-      {
-        internalType: 'string',
-        name: '_name',
-        type: 'string',
-      },
-    ],
+    inputs: [],
     stateMutability: 'nonpayable',
     type: 'constructor',
   },
@@ -28,7 +22,7 @@ export const SMART_CONTRACT_ABI = [
       {
         indexed: false,
         internalType: 'string',
-        name: 'title',
+        name: 'header',
         type: 'string',
       },
       {
@@ -38,7 +32,20 @@ export const SMART_CONTRACT_ABI = [
         type: 'string',
       },
     ],
-    name: 'PostCreated',
+    name: 'ArticleCreated',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+    ],
+    name: 'ArticleDeleted',
     type: 'event',
   },
   {
@@ -53,7 +60,7 @@ export const SMART_CONTRACT_ABI = [
       {
         indexed: false,
         internalType: 'string',
-        name: 'title',
+        name: 'header',
         type: 'string',
       },
       {
@@ -69,14 +76,33 @@ export const SMART_CONTRACT_ABI = [
         type: 'bool',
       },
     ],
-    name: 'PostUpdated',
+    name: 'ArticleUpdated',
     type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [],
+    name: 'ArticlesDeleted',
+    type: 'event',
+  },
+  {
+    inputs: [],
+    name: '_paused',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
     inputs: [
       {
         internalType: 'string',
-        name: 'title',
+        name: 'header',
         type: 'string',
       },
       {
@@ -85,7 +111,46 @@ export const SMART_CONTRACT_ABI = [
         type: 'string',
       },
     ],
-    name: 'createPost',
+    name: 'createArticle',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'articleId',
+        type: 'uint256',
+      },
+    ],
+    name: 'deleteArticle',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'editor',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'articleId',
+        type: 'uint256',
+      },
+    ],
+    name: 'emergencyDeleteArticle',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -98,7 +163,7 @@ export const SMART_CONTRACT_ABI = [
         type: 'string',
       },
     ],
-    name: 'fetchPost',
+    name: 'fetchArticle',
     outputs: [
       {
         components: [
@@ -109,13 +174,18 @@ export const SMART_CONTRACT_ABI = [
           },
           {
             internalType: 'string',
-            name: 'title',
+            name: 'header',
             type: 'string',
           },
           {
             internalType: 'string',
-            name: 'content',
+            name: 'body',
             type: 'string',
+          },
+          {
+            internalType: 'uint256',
+            name: 'timestamp',
+            type: 'uint256',
           },
           {
             internalType: 'bool',
@@ -123,7 +193,7 @@ export const SMART_CONTRACT_ABI = [
             type: 'bool',
           },
         ],
-        internalType: 'struct Blog.Post',
+        internalType: 'struct Clicq.Article',
         name: '',
         type: 'tuple',
       },
@@ -133,7 +203,7 @@ export const SMART_CONTRACT_ABI = [
   },
   {
     inputs: [],
-    name: 'fetchPosts',
+    name: 'fetchArticles',
     outputs: [
       {
         components: [
@@ -144,13 +214,18 @@ export const SMART_CONTRACT_ABI = [
           },
           {
             internalType: 'string',
-            name: 'title',
+            name: 'header',
             type: 'string',
           },
           {
             internalType: 'string',
-            name: 'content',
+            name: 'body',
             type: 'string',
+          },
+          {
+            internalType: 'uint256',
+            name: 'timestamp',
+            type: 'uint256',
           },
           {
             internalType: 'bool',
@@ -158,7 +233,7 @@ export const SMART_CONTRACT_ABI = [
             type: 'bool',
           },
         ],
-        internalType: 'struct Blog.Post[]',
+        internalType: 'struct Clicq.Article[]',
         name: '',
         type: 'tuple[]',
       },
@@ -167,53 +242,14 @@ export const SMART_CONTRACT_ABI = [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'name',
-    outputs: [
-      {
-        internalType: 'string',
-        name: '',
-        type: 'string',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'owner',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
     inputs: [
       {
-        internalType: 'address',
-        name: 'newOwner',
-        type: 'address',
+        internalType: 'bool',
+        name: 'emergency',
+        type: 'bool',
       },
     ],
-    name: 'transferOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: '_name',
-        type: 'string',
-      },
-    ],
-    name: 'updateName',
+    name: 'setPaused',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -222,12 +258,12 @@ export const SMART_CONTRACT_ABI = [
     inputs: [
       {
         internalType: 'uint256',
-        name: 'postId',
+        name: 'articleId',
         type: 'uint256',
       },
       {
         internalType: 'string',
-        name: 'title',
+        name: 'header',
         type: 'string',
       },
       {
@@ -241,7 +277,7 @@ export const SMART_CONTRACT_ABI = [
         type: 'bool',
       },
     ],
-    name: 'updatePost',
+    name: 'updateArticle',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',

@@ -4,7 +4,7 @@ import {
   QUICKNODE_HTTP_URL,
 } from '../constants'
 
-export const { postTitle } = props
+export const { articleHeader } = props
 
 export async function getServerSideProps() {
   /* here we check to see the current environment variable */

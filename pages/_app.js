@@ -69,7 +69,7 @@ function MyApp({ Component, pageProps }) {
               //  show the nav link to create a new post
               account === OWNER_ADDRESS && (
                 <li>
-                  <Link href='/create-post'>Create Post</Link>
+                  <Link href='/createarticle'>Create Article</Link>
                 </li>
               )
             }

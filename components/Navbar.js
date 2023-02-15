@@ -53,10 +53,10 @@ const Navbar = () => {
 
             {
               //  if the signed in user is the contract owner, we
-              //  show the nav link to create a new post
+              //  show the nav link to create a new article
               account === OWNER_ADDRESS && (
                 <li>
-                  <Link href='/create-post'>Create Post</Link>
+                  <Link href='/createpost'>Create Article</Link>
                 </li>
               )
             }
@@ -64,7 +64,7 @@ const Navbar = () => {
             {!account && (
               <li className='connect-btn'>
                 <Link href='' onClick={connect}>
-                  Connect
+                  Connect Wallet
                 </Link>
               </li>
             )}

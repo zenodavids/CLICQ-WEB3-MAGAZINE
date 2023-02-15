@@ -27,16 +27,16 @@ const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
   ssr: false,
 })
 
-const initialState = { title: '', content: '' }
+const initialState = { header: '', body: '' }
 
-function CreatePost() {
+function CreateArticle() {
   /* configure initial state to be used in the component */
-  const [post, setPost] = useState(initialState)
+  const [article, setArticle] = useState(initialState)
   const [image, setImage] = useState(null)
   const [loaded, setLoaded] = useState(false)
 
   const fileRef = useRef(null)
-  const { title, content } = post
+  const { header, body } = article
   const router = useRouter()
 
   useEffect(() => {
@@ -47,7 +47,7 @@ function CreatePost() {
   }, [])
 
   function onChange(e) {
-    setPost(() => ({ ...post, [e.target.name]: e.target.value }))
+    setArticle(() => ({ ...article, [e.target.name]: e.target.value }))
   }
   ////////////////////////////
 
@@ -68,26 +68,26 @@ function CreatePost() {
 
   ///////////////////////////
 
-  async function createNewPost() {
-    /* saves post to ipfs then anchors to smart contract */
-    if (!title || !content) return
-    const hash = await savePostToIpfs()
-    await savePost(hash)
+  async function createNewArticle() {
+    /* saves article to ipfs then anchors to smart contract */
+    if (!header || !body) return
+    const hash = await saveArticleToIpfs()
+    await saveArticle(hash)
     router.push(`/`)
   }
 
-  async function savePostToIpfs() {
-    /* save post metadata to ipfs */
+  async function saveArticleToIpfs() {
+    /* save article metadata to ipfs */
     try {
-      const added = await client.add(JSON.stringify(post))
+      const added = await client.add(JSON.stringify(article))
       return added.path
     } catch (err) {
       console.log('error: ', err)
     }
   }
 
-  async function savePost(hash) {
-    /* anchor post to smart contract */
+  async function saveArticle(hash) {
+    /* anchor aritcle to smart contract */
     if (typeof window.ethereum !== 'undefined') {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner()
@@ -98,7 +98,7 @@ function CreatePost() {
       )
       console.log('contract: ', contract)
       try {
-        const val = await contract.createPost(post.title, hash)
+        const val = await contract.createArticle(article.header, hash)
         /* optional - wait for transaction to be confirmed before rerouting */
         /* await provider.waitForTransaction(val.hash) */
         console.log('val: ', val)
@@ -118,7 +118,7 @@ function CreatePost() {
     const uploadedFile = e.target.files[0]
     if (!uploadedFile) return
     const added = await client.add(uploadedFile)
-    setPost((state) => ({ ...state, coverImage: added.path }))
+    setArticle((state) => ({ ...state, coverImage: added.path }))
     setImage(uploadedFile)
     // use similar dedicated Gateway to see your uploaded image https://(your gateway name).infura-ipfs.io/ipfs/${result.path}
   }
@@ -130,21 +130,21 @@ function CreatePost() {
       )}
       <input
         onChange={onChange}
-        name='title'
-        placeholder='titleTag : TITLE'
-        value={post.title}
-        className={titleStyle}
+        name='header'
+        placeholder='headerTag : HEADER'
+        value={article.header}
+        className={headerStyle}
       />
       <SimpleMDE
         className={mdEditor}
-        placeholder="What's the Content?"
-        value={post.content}
-        onChange={(value) => setPost({ ...post, content: value })}
+        placeholder="What's the body?"
+        value={article.body}
+        onChange={(value) => setArticle({ ...article, body: value })}
       />
       {loaded && (
         <>
           <div className={float1}>
-            <button className={button} type='button' onClick={createNewPost}>
+            <button className={button} type='button' onClick={createNewArticle}>
               Publish
             </button>
           </div>
@@ -187,7 +187,7 @@ const mdEditor = css`
   border: 1px solid rgba(255, 255, 255, 0.3);
 `
 
-const titleStyle = css`
+const headerStyle = css`
   margin-top: 40px;
   border: none;
   outline: none;
@@ -234,4 +234,4 @@ const float2 = css`
 }
 `
 
-export default CreatePost
+export default CreateArticle

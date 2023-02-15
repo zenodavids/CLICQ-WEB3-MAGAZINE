@@ -4,21 +4,21 @@ const fs = require('fs')
 
 async function main() {
   /* these two lines deploy the contract to the network */
-  const Blog = await ethers.getContractFactory('Blog')
+  const Clicq = await ethers.getContractFactory('Clicq')
   // deploy the contract
-  const blog = await Blog.deploy('My blog')
+  const clicq = await Clicq.deploy()
   // wait for the contract to be deployed.
-  await blog.deployed()
+  await clicq.deployed()
 
-  console.log('Blog Contract Address:', blog.address)
+  console.log('Clicq Contract Address:', clicq.address)
 
   /* this code writes the contract addresses to a local
   file named addresses.js that we can use in the app */
   fs.writeFileSync(
     './addresses.js',
     `
-  export const SMART_CONTRACT_ADDRESS = "${blog.address}"
-  export const OWNER_ADDRESS = "${blog.signer.address}"
+  export const SMART_CONTRACT_ADDRESS = "${clicq.address}"
+  export const OWNER_ADDRESS = "${clicq.signer.address}"
   `
   )
 }

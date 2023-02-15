@@ -15,7 +15,7 @@ module.exports = {
     },
     // polygon: {
     //   url: "https://polygon-rpc.com/",
-    //   accounts: [process.env.pk]
+    //   accounts: [PRIVATE_KEY],
     // }
   },
 }

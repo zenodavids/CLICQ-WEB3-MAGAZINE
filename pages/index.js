@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import { AccountContext } from '../context'
-import BlogTitle from '../components/BlogTitle'
+import MagazineName from '../components/MagazineName'
 import Footer from '../components/Footer'
 import {
   SMART_CONTRACT_ABI,
@@ -14,33 +14,35 @@ import {
 } from '../constants'
 
 export default function Home(props) {
-  /* posts are fetched server side and passed in as props
-   see getServerSideProps */
-  const { posts } = props
+  // Destructures the articles object from the props
+  const { articles } = props
+
+  // Retrieves the current user's account from the AccountContext
   const account = useContext(AccountContext)
+
+  // Initializes the router
   const router = useRouter()
-  // ================================
-  console.log('========= all post  ==========')
-  console.log(posts)
-  // ================================
+
+  // Console logs all articles for debugging purposes
+  console.log('========= all articles ==========')
+  console.log(articles)
+
+  // Defines an asynchronous function to navigate to the CreateArticle page
   async function navigate() {
-    router.push('/create-post')
+    router.push('/createarticle')
   }
 
   return (
     <div>
-      <BlogTitle />
-      {/* -------------------------------------------------- */}
-      {/* <div className='h2header'>
-        <h2>LATEST NEWS</h2>
-      </div> */}
+      <MagazineName />
 
       <div className='row'>
         {/* Left column */}
         <div className='leftcolumn'>
           <div className='w-layout-grid blog-grid'>
-            {posts
-              .map((post, index) => (
+            {/* Maps through the articles and creates a div for each article */}
+            {articles
+              .map((article, index) => (
                 // eslint-disable-next-line react/jsx-key
                 <div className='content-left'>
                   <div className='blog-item boxShadow'>
@@ -48,7 +50,7 @@ export default function Home(props) {
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={`https://source.unsplash.com/1600x900/?${
-                          post[1].split(' ')[0]
+                          article[1].split(' ')[0]
                         }`}
                         width='380'
                         height='380'
@@ -62,20 +64,21 @@ export default function Home(props) {
                       />
                     </div>
                     <div className='blog-content'>
+                      {/* Links to the individual article page */}
                       <Link
-                        href={`post/${post[2]}`}
+                        href={`article/${article[2]}`}
                         key={index}
                         className='w-inline-block a'
                       >
                         <h3 className='heading-h2 h3'>
-                          {`${post[1].substr(post[1].indexOf(' ') + 2)}`}
+                          {`${article[1].substr(article[1].indexOf(' ') + 2)}`}
                         </h3>
                       </Link>
                       <div className='profile-block'>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={`https://source.unsplash.com/1600x900/?${
-                            post[1].split(' ')[0]
+                            article[1].split(' ')[0]
                           }`}
                           width='50'
                           alt=''
@@ -83,8 +86,9 @@ export default function Home(props) {
                         />
                         <div className='normal-wrapper'>
                           <div className='title-small'></div>
+                          {/* Links to the individual article page */}
                           <Link
-                            href={`post/${post[2]}`}
+                            href={`article/${article[2]}`}
                             key={index}
                             className='w-inline-block a'
                           >
@@ -105,21 +109,22 @@ export default function Home(props) {
         <div className='rightcolumn'>
           <div className='card boxShadow'>
             <h3>Latest</h3>
-            {posts
-              .map((post, index) => (
+            {/* Maps through the articles and creates a div for each article */}
+            {articles
+              .map((article, index) => (
                 // eslint-disable-next-line react/jsx-key
                 <div className='fakeimg'>
+                  {/* Links to the individual article page */}
                   <Link
-                    href={`post/${post[2]}`}
+                    href={`article/${article[2]}`}
                     key={index}
                     className='w-inline-block a'
                   >
-                    {`${post[1].substr(post[1].indexOf(' ') + 2)}`}
+                    {`${article[1].substr(article[1].indexOf(' ') + 2)}`}
                   </Link>
                 </div>
               ))
               .reverse()}
-
             <br />
           </div>
         </div>
@@ -147,13 +152,13 @@ export async function getServerSideProps() {
     SMART_CONTRACT_ABI,
     provider
   )
-  const data = await contract.fetchPosts()
-  console.log('======== fetch all post titles ========')
+  const data = await contract.fetchArticles()
+  console.log('======== fetch all Article headers ========')
   console.log(data)
 
   return {
     props: {
-      posts: JSON.parse(JSON.stringify(data)),
+      articles: JSON.parse(JSON.stringify(data)),
     },
   }
 }

@@ -9,8 +9,10 @@ import {
 } from '../constants'
 
 export const NewsTicker = () => {
-  // Declare a state variable called "posts" and a function "setPosts" to update the value of "posts"
-  const [posts, setPosts] = useState(['Loading NEWS Updates... Please wait.'])
+  // Declare a state variable called "articles" and a function "setArticles" to update the value of "articles"
+  const [articles, setArticles] = useState([
+    'Loading NEWS Updates... Please wait.',
+  ])
 
   // Use the useEffect hook to fetch data from the Ethereum contract when the component mounts
   useEffect(() => {
@@ -26,20 +28,20 @@ export const NewsTicker = () => {
         provider
       )
 
-      // Fetch the posts data from the contract using the "fetchPosts" method
-      const data = await contract.fetchPosts()
+      // Fetch the articles data from the contract using the "fetchArticles" method
+      const data = await contract.fetchArticles()
 
       // Log the fetched data to the console
-      console.log('======== fetch all post titles ========')
+      console.log('======== fetch all article Headers ========')
       console.log(data)
 
-      // Update the state variable "posts" with the fetched data
-      setPosts(JSON.parse(JSON.stringify(data)))
+      // Update the state variable "articles" with the fetched data
+      setArticles(JSON.parse(JSON.stringify(data)))
     }
     fetchData()
   }, []) // The useEffect hook will only run once because it has an empty array as the second argument
 
-  if (!posts) {
+  if (!articles) {
     return (
       <div id='ticker'>
         <div className='title'>{currentDate}</div>
@@ -56,15 +58,15 @@ export const NewsTicker = () => {
         <div className='title'>NEWS</div>
         <ul>
           {/* ==================== */}
-          {posts
-            .map((post, index) => (
+          {articles
+            .map((article, index) => (
               <Link
-                href={`post/${post[2]}`}
+                href={`article/${article[2]}`}
                 key={index}
                 className='w-inline-block a'
               >
                 <li className='tickerItem'>
-                  {`${post[1].substr(post[1].indexOf(' ') + 2)}`}
+                  {`${article[1].substr(article[1].indexOf(' ') + 2)}`}
                 </li>
               </Link>
             ))
