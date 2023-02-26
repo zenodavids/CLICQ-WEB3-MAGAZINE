@@ -1,108 +1,124 @@
-import { useState } from 'react'
-import Link from 'next/link'
+import WalletConnectProvider from '@walletconnect/web3-provider'
 import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
+import 'easymde/dist/easymde.min.css'
+import React from 'react'
+import Link from 'next/link'
 import { OWNER_ADDRESS } from '../constants'
 import '../styles/globals.css'
-import { css } from '@emotion/css'
-import { AccountContext } from '../context.js'
-import 'easymde/dist/easymde.min.css'
 import FxTicker from '../components/FxTicker'
 import { NewsTicker } from '../components/NewsTicker'
-import AlphavantageAPI from '../components/AlphavantageAPI'
+import { AccountContext } from '../context.js'
 
-function MyApp({ Component, pageProps }) {
-  /* create local state to save account information after signin */
+class MyApp extends React.Component {
+  // Define a class component named MyApp that extends the React.Component class
+  constructor(props) {
+    // Define a constructor method that takes in props as a parameter
+    super(props) // Call the constructor of the parent class and pass the props parameter to it
+    this.state = {
+      // Set the initial state of the component
+      account: null, // Set the account property of the state to null
+    }
+  }
 
-  /* create local state to save account information after signin */
-  const [account, setAccount] = useState(null)
-  /* web3Modal configuration for enabling wallet access */
-  async function getWeb3Modal() {
+  async getWeb3Modal() {
+    // Define an asynchronous function named getWeb3Modal
     const web3Modal = new Web3Modal({
-      cacheProvider: false,
+      // Create a new instance of the Web3Modal class and configure it with some options
+      cacheProvider: false, // Set the cacheProvider option to false to disable caching of the provider
       providerOptions: {
+        // Set the providerOptions option to an object that contains the configuration for the walletconnect provider
         walletconnect: {
-          package: WalletConnectProvider,
+          // Configure the walletconnect provider
+          package: WalletConnectProvider, // Set the package option to the WalletConnectProvider class
           options: {
-            infuraId: '7db3a1b57c0646f09a470e804f7fb9e8',
+            // Set the options option to an object that contains the configuration for the provider
+            infuraId: '7db3a1b57c0646f09a470e804f7fb9e8', // Set the infuraId option to the specified value
           },
         },
       },
     })
-    return web3Modal
+    return web3Modal // Return the created instance of Web3Modal
   }
 
-  /* the connect function uses web3 modal to connect to the user's wallet */
-  const connect = async () => {
+  connectWallet = async () => {
+    // Define an asynchronous arrow function named connectWallet
     try {
-      const web3Modal = await getWeb3Modal()
-      const connection = await web3Modal.connect()
-      const provider = new ethers.providers.Web3Provider(connection)
-      const accounts = await provider.listAccounts()
-      setAccount(accounts[0])
+      // Begin a try-catch block to handle any errors that may occur
+      const web3Modal = await this.getWeb3Modal() // Call the getWeb3Modal function to get an instance of Web3Modal
+      const web3Connection = await web3Modal.connect() // Connect to the web3 provider using the instance of Web3Modal
+      const provider = new ethers.providers.Web3Provider(web3Connection) // Create a new instance of the Web3Provider class using the connected web3 provider
+      const accounts = await provider.listAccounts() // Get a list of accounts associated with the connected provider
+      this.setState({ ownerWalletAddress: accounts[0] }) // Update the state of the component to set the ownerWalletAddress property to the first account in the list
     } catch (err) {
-      console.log('error:', err)
+      // Catch any errors that occur during the execution of the try block
+      console.log('error:', err) // Log the error message to the console
     }
   }
 
-  return (
-    <div>
-      <NewsTicker />
-      <FxTicker />
-      {/* <AlphavantageAPI /> */}
-      {/* navbar start */}
-      <nav className='navbar'>
-        {/* logo */}
-        <div className='logo'></div>
-        {/* navigation menu */}
-        <ul className='nav-links'>
-          {/* NAVIGATION MENUS */}
+  render() {
+    // Define the render method for the component
+    const { Component, pageProps } = this.props // Destructure the Component and pageProps properties from the props object
+    const { ownerWalletAddress } = this.state // Destructure the ownerWalletAddress property from the state object
 
-          <div className='menu'>
-            <li>
-              <Link href='/'>Home</Link>
-            </li>
+    return (
+      /* Create a div element that contains all the other elements */
+      <div>
+        {/* Render a NewsTicker component */}
+        <NewsTicker />
 
-            {
-              //  if the signed in user is the contract owner, we
-              //  show the nav link to create a new post
-              account === OWNER_ADDRESS && (
+        {/* Render an FxTicker component */}
+        <FxTicker />
+
+        {/* Create a nav element with the class name 'navbar' */}
+        <nav className='navbar'>
+          {/* Create a div element with the class name 'logo'*/}
+          <div className='logo'></div>
+
+          {/* Create a ul element with the class name 'nav-links' */}
+          <ul className='nav-links'>
+            {/* Create a div element with the class name 'menu' */}
+            <div className='menu'>
+              {/* Create a li element */}
+              <li>
+                {/* Create a Link element */}
+                <Link href='/'>Home</Link>
+              </li>
+              {ownerWalletAddress === OWNER_ADDRESS && (
                 <li>
                   <Link href='/createarticle'>Create Article</Link>
                 </li>
-              )
-            }
-
-            {!account && (
-              <li className='connect-btn'>
-                <Link href='' onClick={connect}>
-                  Connect
-                </Link>
-              </li>
-            )}
-            {/* if connected, show the wallet address */}
-            {account && (
-              <Link style={{ pointerEvents: 'none' }} href=''>
-                <li style={{ paddingBottom: '0', marginBottom: '-4px' }}>
-                  {`${account.slice(0, 4)}...${account.slice(38)}`}
+              )}
+              {!ownerWalletAddress && (
+                <li className='connect-btn'>
+                  <Link href='' onClick={this.connectWallet}>
+                    Connect Wallet
+                  </Link>
                 </li>
-              </Link>
-            )}
+              )}
+              {ownerWalletAddress && (
+                <Link style={{ pointerEvents: 'none' }} href=''>
+                  <li style={{ paddingBottom: '0', marginBottom: '-4px' }}>
+                    {`${ownerWalletAddress.slice(
+                      0,
+                      4
+                    )}...${ownerWalletAddress.slice(38)}`}
+                  </li>
+                </Link>
+              )}
+            </div>
+          </ul>
+        </nav>
+        <div className='body'>
+          <div className='container'>
+            <AccountContext.Provider value={ownerWalletAddress}>
+              <Component {...pageProps} />
+            </AccountContext.Provider>{' '}
           </div>
-        </ul>
-      </nav>
-      {/* navbar end */}
-
-      <div className='body'>
-        <div className='container'>
-          <AccountContext.Provider value={account}>
-            <Component {...pageProps} />
-          </AccountContext.Provider>{' '}
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default MyApp

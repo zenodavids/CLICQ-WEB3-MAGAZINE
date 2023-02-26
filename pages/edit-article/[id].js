@@ -1,10 +1,10 @@
+import { ethers } from 'ethers'
+import { create } from 'ipfs-http-client'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import ReactMarkdown from 'react-markdown'
 import { css } from '@emotion/css'
 import dynamic from 'next/dynamic'
-import { ethers } from 'ethers'
-import { create } from 'ipfs-http-client'
 import {
   OWNER_ADDRESS,
   SMART_CONTRACT_ABI,
@@ -12,23 +12,13 @@ import {
   QUICKNODE_HTTP_URL,
 } from '../../constants'
 
-// import { contractAddress } from "../../config";
-// import Blog from "../../artifacts/contracts/Blog.sol/Blog.json";
-
-const ipfsURI = 'https://himarkblog.infura-ipfs.io/ipfs/'
-// const client = create("https://ipfs.infura.io:5001/api/v0");
-/////////////////////////////////////
-
-// Declare the project ID and API key secret for authentication
 const projectId = '2HR1ziNfwlZQpvJGE5InBYyZw0v'
 const apiKeySecret = 'c415732d27d68169c8d917c924e3e5f6'
 
-// Create the authorization header using the project ID and API key secret
 const auth =
   'Basic ' + Buffer.from(projectId + ':' + apiKeySecret).toString('base64')
 
-// Create a client object to interact with the IPFS API
-const client = create({
+const infuraClient = create({
   host: 'ipfs.infura.io',
   port: 5001,
   protocol: 'https',
@@ -38,16 +28,13 @@ const client = create({
   },
 })
 
-///////////////////////////////////
-
-// Import the dynamic component from the react-simplemde-editor library
-const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
+const TextEditor = dynamic(() => import('react-simplemde-editor'), {
   ssr: false,
 })
 
-// Define the Article component as the default export of the module
-export default function Article() {
-  // Declare state variables for the current article and editing state
+const infuraIPFSuri = 'https://himarkblog.infura-ipfs.io/ipfs/'
+
+const EditArticle = () => {
   const [article, setArticle] = useState(null)
   const [editing, setEditing] = useState(true)
 
@@ -82,14 +69,14 @@ export default function Article() {
     const articleId = val[0].toNumber()
 
     /* Next, fetch the IPFS metadata from the network using the IPFS URI and the article ID */
-    const ipfsUrl = `${ipfsURI}${id}`
+    const ipfsUrl = `${infuraIPFSuri}${id}`
     const response = await fetch(ipfsUrl)
     const data = await response.json()
 
-    // If the metadata includes a cover image, update the coverImagePath property to include the IPFS URI
-    if (data.coverImage) {
-      let coverImagePath = `${ipfsURI}${data.coverImage}`
-      data.coverImagePath = coverImagePath
+    // If the metadata includes a cover image, update the articleBannerPath property to include the IPFS URI
+    if (data.articleBanner) {
+      let articleBannerPath = `${infuraIPFSuri}${data.articleBanner}`
+      data.articleBannerPath = articleBannerPath
     }
 
     /* Finally, append the article ID to the article data object */
@@ -101,7 +88,7 @@ export default function Article() {
   // Define a function to save the current article to IPFS and return the hash of the saved data
   async function saveArticleToIpfs() {
     try {
-      const added = await client.add(JSON.stringify(article))
+      const added = await infuraClient.add(JSON.stringify(article))
       return added.path
     } catch (err) {
       console.log('error: ', err)
@@ -148,8 +135,8 @@ export default function Article() {
             value={article.header}
             className={headerStyle}
           />
-          <SimpleMDE
-            className={mdEditor}
+          <TextEditor
+            className={textEditorStyle}
             placeholder="What's the Content?"
             value={article.body}
             onChange={(value) => setArticle({ ...article, body: value })}
@@ -178,8 +165,11 @@ export default function Article() {
       {!editing && (
         <div>
           {/* If the article has a cover image, display it */}
-          {article.coverImagePath && (
-            <img src={article.coverImagePath} className={coverImageStyle} />
+          {article.articleBannerPath && (
+            <img
+              src={article.articleBannerPath}
+              className={articleBannerStyle}
+            />
           )}
           {/* Display the article header */}
           <h1>{article.header}</h1>
@@ -192,6 +182,8 @@ export default function Article() {
     </div>
   )
 }
+
+export default EditArticle
 
 const button = css`
   background-color: transparent;
@@ -232,9 +224,9 @@ const headerStyle = css`
   }
 `
 
-const mdEditor = css`
-  margin: 40px auto;
-  padding: 20px;
+const textEditorStyle = css`
+  margin: 50px auto;
+  padding: 5px;
   background: rgba(255, 255, 255, 0.22);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -243,15 +235,15 @@ const mdEditor = css`
   border: 1px solid rgba(255, 255, 255, 0.3);
 `
 
-const coverImageStyle = css`
+const articleBannerStyle = css`
   width: 900px;
 `
 
 const container = css`
   width: 100%;
-  height: 100vh;
+  height: auto;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
 `
 
 const bodyContainer = css`

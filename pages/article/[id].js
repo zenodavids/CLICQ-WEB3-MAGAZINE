@@ -1,50 +1,50 @@
-import ReactMarkdown from 'react-markdown'
-import { useContext } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { css } from '@emotion/css'
-import { ethers } from 'ethers'
-import { AccountContext } from '../../context'
+// Import necessary packages and components
+import { ethers } from 'ethers' // Allows for use of the ethers.js library for Ethereum development
+import { AccountContext } from '../../context' // Imports the AccountContext from a custom context
+import { useContext } from 'react' // Allows for use of context in React components
+import { useRouter } from 'next/router' // Allows for routing in Next.js
+import Link from 'next/link' // Allows for creation of links in Next.js
+import { css } from '@emotion/css' // Allows for styling with CSS-in-JS
 import {
   OWNER_ADDRESS,
   SMART_CONTRACT_ABI,
   SMART_CONTRACT_ADDRESS,
   QUICKNODE_HTTP_URL,
-} from '../../constants'
+} from '../../constants' // Imports constants used throughout the application
 
-const ipfsURI = 'https://himarkblog.infura-ipfs.io/ipfs/'
+const infuraIPFSuri = 'https://himarkblog.infura-ipfs.io/ipfs/' // Sets the URL for the IPFS gateway
 
 export default function Article({ article }) {
-  const account = useContext(AccountContext)
-  const router = useRouter()
-  const { id } = router.query
+  const routeToArticlePage = useRouter() // Gets the current route using useRouter hook
+  const { id } = routeToArticlePage.query // Gets the ID parameter from the route
 
-  if (router.isFallback) {
+  const ownerWalletConnected = useContext(AccountContext) // Gets the connected wallet address from the AccountContext
+
+  // If the page is still loading, show a loading message
+  if (routeToArticlePage.isFallback) {
     return <div>Loading...</div>
   }
   return (
     <div>
+      {/* If the article exists, display the article */}
       {article && (
         <div className={`${container} boxShadow`}>
-          {
-            /* if the owner is the user, render an edit button */
-            OWNER_ADDRESS === account && (
-              <div className={editArticle}>
-                {/* <Link href={`/edit-article/${id}`}>Edit article</Link> */}
-                <Link href={`/edit-article/${[id]}`}>Edit article</Link>
-              </div>
-            )
-          }
-          {
-            /* if the article has a cover image, render it */
-            article.coverImage && (
-              <img src={article.coverImage} className={coverImageStyle} />
-            )
-          }
-          <h1 style={{ paddingTop: '1rem' }}>{article.header}</h1>
+          {/* If the connected wallet is the same as the article owner's wallet, show the Edit Article button */}
+          {OWNER_ADDRESS === ownerWalletConnected && (
+            <div className={editArticle}>
+              <Link href={`/edit-article/${[id]}`}>Edit article</Link>
+            </div>
+          )}
+          {/* If the article has a cover image, display it */}
+          {article.articleBanner && (
+            <img src={article.articleBanner} className={articleBannerStyle} />
+          )}
+          {/* Display the article header and body */}
+          <h1 style={{ paddingTop: '1rem' }}>
+            {article.header.substr(article.header.indexOf(' ') + 2)}
+          </h1>
           <div className={bodyContainer}>
             <p className={articleHeader}>{article.body}</p>
-            {/* <ReactMarkdown>{article.body}</ReactMarkdown> */}
           </div>
         </div>
       )}
@@ -52,44 +52,51 @@ export default function Article({ article }) {
   )
 }
 
+// Function to generate the static paths for the articles
 export async function getStaticPaths() {
-  /* here we fetch the articles from the network */
+  // Create an ethers provider using the QUICKNODE_HTTP_URL constant
   let provider
-  provider = new ethers.providers.JsonRpcProvider(
-    // "https://rpc-mumbai.matic.today"
-    QUICKNODE_HTTP_URL
-  )
+  provider = new ethers.providers.JsonRpcProvider(QUICKNODE_HTTP_URL)
 
+  // Create an ethers contract using the SMART_CONTRACT_ADDRESS and SMART_CONTRACT_ABI constants
   const contract = new ethers.Contract(
     SMART_CONTRACT_ADDRESS,
     SMART_CONTRACT_ABI,
     provider
   )
+
+  // Fetch the articles from the contract
   const data = await contract.fetchArticles()
 
-  /* then we map over the articles and create a params object passing the id property to getStaticProps which will run for every article in the array and generate a new page */
+  // Create an array of article paths using the article IDs from the fetched data
   const paths = data.map((d) => ({ params: { id: d[2] } }))
 
+  // Return the article paths and fallback true to allow for dynamic generation of pages
   return {
     paths,
     fallback: true,
   }
 }
 
+// Function to fetch the article data for the specified ID
 export async function getStaticProps({ params }) {
-  /* using the id property passed in through the params object */
-  /* we can us it to fetch the data from IPFS and pass the */
-  /* article data into the page as props */
+  // Get the ID parameter from the function params
   const { id } = params
-  const ipfsUrl = `${ipfsURI}${id}`
+
+  // Set the IPFS URL based on the ID parameter
+  const ipfsUrl = `${infuraIPFSuri}${id}`
+
+  // Fetch the data from the IPFS URL
   const response = await fetch(ipfsUrl)
   const data = await response.json()
 
-  if (data.coverImage) {
-    let coverImage = `${ipfsURI}${data.coverImage}`
-    data.coverImage = coverImage
+  // If the data contains a articleBanner property, append the IPFS URL to it
+  if (data.articleBanner) {
+    let articleBanner = `${infuraIPFSuri}${data.articleBanner}`
+    data.articleBanner = articleBanner
   }
 
+  // Return the props object with the article data
   return {
     props: {
       article: data,
@@ -103,7 +110,7 @@ const editArticle = css`
   background: none;
 `
 
-const coverImageStyle = css`
+const articleBannerStyle = css`
   width: 100%;
   height: 300px;
   object-fit: cover;
@@ -112,18 +119,17 @@ const coverImageStyle = css`
 
 const container = css`
   width: 100%;
-  height: 100vh;
+  height: auto;
   margin: 0 auto;
   padding: 10px;
 `
 
 const bodyContainer = css`
-  width: 98%;
-  padding: 20px;
+  width: 100%;
+  padding: 10px;
+  line-height: 1.6;
   margin: 60px -20px 0 0;
-  padding: 0px 40px;
-  border-left: 1px solid #e7e7e7;
-  border-right: 1px solid #e7e7e7;
+  padding: 0 1px 0 5px;
   & img {
     max-width: 900px;
   }

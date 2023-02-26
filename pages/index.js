@@ -1,8 +1,8 @@
-import { css } from '@emotion/css'
-import { useContext, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import Link from 'next/link'
+import { css } from '@emotion/css'
+import { useContext } from 'react'
 import { AccountContext } from '../context'
 import MagazineName from '../components/MagazineName'
 import Footer from '../components/Footer'
@@ -10,43 +10,47 @@ import {
   SMART_CONTRACT_ABI,
   SMART_CONTRACT_ADDRESS,
   QUICKNODE_HTTP_URL,
-  OWNER_ADDRESS,
 } from '../constants'
 
-export default function Home(props) {
-  // Destructures the articles object from the props
-  const { articles } = props
-
-  // Retrieves the current user's account from the AccountContext
+// This component receives props that include an array of articles.
+export default function MagazineMainPage(props) {
+  // We use the useContext hook to get access to the current account in the AccountContext.
   const account = useContext(AccountContext)
 
-  // Initializes the router
-  const router = useRouter()
+  // We use the useRouter hook to get access to the router instance.
+  const createArticleRouter = useRouter()
 
-  // Console logs all articles for debugging purposes
-  console.log('========= all articles ==========')
-  console.log(articles)
-
-  // Defines an asynchronous function to navigate to the CreateArticle page
+  // This function is called when the user clicks on the create article button, it navigates them to the create article page.
   async function navigate() {
-    router.push('/createarticle')
+    createArticleRouter.push('/createarticle')
   }
 
+  const { articles } = props
+
+  // This component renders a div containing the magazine name, left and right columns with articles, and a footer.
   return (
     <div>
+      {/* This component displays the magazine name. */}
       <MagazineName />
 
+      {/* This div contains the left and right columns for the articles. */}
       <div className='row'>
         {/* Left column */}
         <div className='leftcolumn'>
+          {/* This div contains a grid of articles. */}
           <div className='w-layout-grid blog-grid'>
-            {/* Maps through the articles and creates a div for each article */}
+            {/* We use the map method to loop through the articles and create a div for each article. */}
             {articles
               .map((article, index) => (
                 // eslint-disable-next-line react/jsx-key
                 <div className='content-left'>
+                  {/* This div contains the blog item, including the image and content. */}
                   <div className='blog-item boxShadow'>
+                    {/* This div contains the blog image. */}
                     <div className='blog-image-wrap'>
+                      {/* This img tag displays the image for the article. */}
+                      {/* We use the Unsplash API to get a random image for the article's topic. */}
+                      {/* The article topic is the first word in the article's title. */}
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={`https://source.unsplash.com/1600x900/?${
@@ -63,18 +67,25 @@ export default function Home(props) {
                         }}
                       />
                     </div>
+
+                    {/* This div contains the blog content. */}
                     <div className='blog-content'>
-                      {/* Links to the individual article page */}
+                      {/* This link takes the user to the article page when clicked. */}
                       <Link
                         href={`article/${article[2]}`}
                         key={index}
                         className='w-inline-block a'
                       >
+                        {/* This h3 tag displays the article's title. */}
                         <h3 className='heading-h2 h3'>
                           {`${article[1].substr(article[1].indexOf(' ') + 2)}`}
                         </h3>
                       </Link>
+
+                      {/* This div contains the profile block. */}
                       <div className='profile-block'>
+                        {/* This img tag displays the author's profile picture. */}
+                        {/* We use the Unsplash API to get a random image for the author. */}
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={`https://source.unsplash.com/1600x900/?${
@@ -84,9 +95,9 @@ export default function Home(props) {
                           alt=''
                           className='profile-picture'
                         />
+                        {/* This div contains the author's name and the "Read more" link. */}
                         <div className='normal-wrapper'>
                           <div className='title-small'></div>
-                          {/* Links to the individual article page */}
                           <Link
                             href={`article/${article[2]}`}
                             key={index}
@@ -105,16 +116,15 @@ export default function Home(props) {
               .reverse()}
           </div>
         </div>
-        {/* Right column */}
+
         <div className='rightcolumn'>
           <div className='card boxShadow'>
             <h3>Latest</h3>
-            {/* Maps through the articles and creates a div for each article */}
+
             {articles
               .map((article, index) => (
                 // eslint-disable-next-line react/jsx-key
                 <div className='fakeimg'>
-                  {/* Links to the individual article page */}
                   <Link
                     href={`article/${article[2]}`}
                     key={index}
@@ -133,60 +143,38 @@ export default function Home(props) {
     </div>
   )
 }
-// ============= NEWS TICKER START =====================
 
-// ============= NEWS TICKER END =====================
-
-/////////////////////////////////
+// This function is asynchronous and will return server-side props.
 export async function getServerSideProps() {
-  /* here we check to see the current environment variable */
-  /* and render a provider based on the environment we're in */
   let provider
+
+  // We are creating a new instance of the JSON RPC provider from the ethers library.
+  // We pass in a URL endpoint for the Ethereum network we want to connect to.
   provider = new ethers.providers.JsonRpcProvider(
     // "https://rpc-mumbai.matic.today"
-    QUICKNODE_HTTP_URL
+    QUICKNODE_HTTP_URL // Here, we are using the URL stored in the QUICKNODE_HTTP_URL variable to connect to a specific network.
   )
 
+  // We are creating a new instance of the smart contract using the Contract class from the ethers library.
+  // We pass in the contract address and ABI as arguments, along with the provider we just created.
   const contract = new ethers.Contract(
     SMART_CONTRACT_ADDRESS,
     SMART_CONTRACT_ABI,
     provider
   )
+
+  // We are calling the fetchArticles function on the smart contract and waiting for it to return data.
   const data = await contract.fetchArticles()
+
+  // We are logging the data we received from the smart contract to the console.
   console.log('======== fetch all Article headers ========')
   console.log(data)
 
+  // We are returning an object that contains the props we want to pass to the component.
+  // We stringify the data and parse it again to avoid issues with serialization.
   return {
     props: {
       articles: JSON.parse(JSON.stringify(data)),
     },
   }
 }
-const h3 = css`
-  z-index: 2;
-  mix-blend-mode: screen;
-  background: white;
-  font-weight: bold;
-  padding: 2em 10px;
-  max-width: 1100px;
-`
-const p = css`
-  z-index: 2;
-  padding: 2em 10px;
-  mix-blend-mode: screen;
-  background: white;
-  font-weight: bold;
-  color: transparent;
-
-  max-width: 1100px;
-  margin: 0;
-  bottom: 6px;
-`
-const img = css`
-  position: absolute;
-  top: 0;
-  height: 110%;
-  width: 100%;
-  z-index: -1;
-  transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-`

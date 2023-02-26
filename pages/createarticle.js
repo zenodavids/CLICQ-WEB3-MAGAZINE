@@ -118,7 +118,7 @@ function CreateArticle() {
     const uploadedFile = e.target.files[0]
     if (!uploadedFile) return
     const added = await client.add(uploadedFile)
-    setArticle((state) => ({ ...state, coverImage: added.path }))
+    setArticle((state) => ({ ...state, articleBanner: added.path }))
     setImage(uploadedFile)
     // use similar dedicated Gateway to see your uploaded image https://(your gateway name).infura-ipfs.io/ipfs/${result.path}
   }
@@ -126,7 +126,7 @@ function CreateArticle() {
   return (
     <div className={container}>
       {image && (
-        <img className={coverImageStyle} src={URL.createObjectURL(image)} />
+        <img className={articleBannerStyle} src={URL.createObjectURL(image)} />
       )}
       <input
         onChange={onChange}
@@ -171,7 +171,7 @@ const hiddenInput = css`
   display: none;
 `
 
-const coverImageStyle = css`
+const articleBannerStyle = css`
   max-width: 800px;
 `
 
