@@ -2,10 +2,9 @@
 // Import necessary packages and components
 import { ethers } from 'ethers' // Allows for use of the ethers.js library for Ethereum development
 import { Component } from 'react'
+import Link from 'next/link' // Allows for creation of links in Next.js
 import { withRouter } from 'next/router'
 import { ShareState } from '../../constants/createShareStateContext' // Imports the ShareState from a custom context
-import Link from 'next/link' // Allows for creation of links in Next.js
-import { css } from '@emotion/css' // Allows for styling with CSS-in-JS
 import {
   OWNER_ADDRESS,
   SMART_CONTRACT_ABI,
@@ -35,11 +34,6 @@ class Article extends Component {
   render() {
     const { article } = this.props
     const { id, ownerWalletConnected } = this.state
-
-    // If the page is still loading, show a loading message
-    if (this.props.router.isFallback) {
-      return <div>Loading... Please Wait.</div>
-    }
 
     return (
       <div>
@@ -136,9 +130,3 @@ export const getStaticProps = async ({ params }) => {
     },
   }
 }
-
-const articleHeader = css`
-  width: 100%;
-  margin: 40px auto;
-  padding: 0;
-`

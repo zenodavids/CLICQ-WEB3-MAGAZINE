@@ -3,10 +3,8 @@ import { create } from 'ipfs-http-client'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import ReactMarkdown from 'react-markdown'
-import { css } from '@emotion/css'
 import dynamic from 'next/dynamic'
 import {
-  OWNER_ADDRESS,
   SMART_CONTRACT_ABI,
   SMART_CONTRACT_ADDRESS,
   QUICKNODE_HTTP_URL,
@@ -26,10 +24,6 @@ const infuraClient = create({
   headers: {
     authorization: auth,
   },
-})
-
-const TextEditor = dynamic(() => import('react-simplemde-editor'), {
-  ssr: false,
 })
 
 const infuraIPFSuri = 'https://himarkblog.infura-ipfs.io/ipfs/'
@@ -122,9 +116,13 @@ const EditArticle = () => {
   // If there is no article object, return null
   if (!article) return null
 
+  const TextEditor = dynamic(() => import('react-simplemde-editor'), {
+    ssr: false,
+  })
+
   // Renders the article editing form and the article preview
   return (
-    <div className={`${container} boxShadow`}>
+    <div className='createArticlecontainer boxShadow'>
       {/* If the user is currently editing the article, display the markdown editor */}
       {editing && (
         <div>
@@ -133,18 +131,18 @@ const EditArticle = () => {
             name='header'
             placeholder='headerTag : HEADER'
             value={article.header}
-            className={headerStyle}
+            className='createArticleheaderStyle'
           />
           <TextEditor
-            className={textEditorStyle}
+            className='textEditorStyling'
             placeholder="What's the Content?"
             value={article.body}
             onChange={(value) => setArticle({ ...article, body: value })}
           />
 
           {/* Button to update the article in the smart contract */}
-          <div className={float1}>
-            <button className={`${button} connect-btn`} onClick={updateArticle}>
+          <div className='createArticlefloat1'>
+            <button className='createArticlebutton ' onClick={updateArticle}>
               Update Article
             </button>
           </div>
@@ -152,9 +150,9 @@ const EditArticle = () => {
       )}
 
       {/* Button to toggle between editing and viewing the article */}
-      <div className={float2}>
+      <div className='createArticlefloat2'>
         <button
-          className={`${button} connect-btn`}
+          className='createArticlebutton '
           onClick={() => setEditing(editing ? false : true)}
         >
           {editing ? 'View article' : 'Edit article'}
@@ -166,10 +164,7 @@ const EditArticle = () => {
         <div>
           {/* If the article has a cover image, display it */}
           {article.articleBannerPath && (
-            <img
-              src={article.articleBannerPath}
-              className={articleBannerStyle}
-            />
+            <img src={article.articleBannerPath} style={{ width: '900px' }} />
           )}
           {/* Display the article header */}
           <h1>{article.header}</h1>
@@ -184,74 +179,3 @@ const EditArticle = () => {
 }
 
 export default EditArticle
-
-const button = css`
-  background-color: transparent;
-  margin: 0 0 20px 20px;
-  font-size: 1rem;
-  text-transform: uppercase;
-  cursor: pointer;
-  color: inherit;
-  outline: none;
-  border: none;
-`
-const float1 = css`
-	position:fixed;
-	right:40px;
-	top:60px;
-	border-radius:12px;
-	text-align:center;
-}
-`
-const float2 = css`
-	position:fixed;
-	right:200px;
-	top:60px;
-	border-radius:12px;
-	text-align:center;
-}
-`
-
-const headerStyle = css`
-  margin-top: 40px;
-  border: none;
-  outline: none;
-  background-color: inherit;
-  font-size: 44px;
-  font-weight: 400;
-  &::placeholder {
-    color: #999999;
-  }
-`
-
-const textEditorStyle = css`
-  margin: 50px auto;
-  padding: 5px;
-  background: rgba(255, 255, 255, 0.22);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(9.1px);
-  -webkit-backdrop-filter: blur(9.1px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-`
-
-const articleBannerStyle = css`
-  width: 900px;
-`
-
-const container = css`
-  width: 100%;
-  height: auto;
-  margin: 0 auto;
-  padding: 10px;
-`
-
-const bodyContainer = css`
-  margin-top: 60px;
-  padding: 0px 40px;
-  border-left: 1px solid #e7e7e7;
-  border-right: 1px solid #e7e7e7;
-  & img {
-    max-width: 900px;
-  }
-`
