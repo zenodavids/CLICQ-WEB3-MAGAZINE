@@ -13,9 +13,5 @@ module.exports = {
       url: QUICKNODE_HTTP_URL,
       accounts: [PRIVATE_KEY],
     },
-    // polygon: {
-    //   url: "https://polygon-rpc.com/",
-    //   accounts: [PRIVATE_KEY],
-    // }
   },
 }

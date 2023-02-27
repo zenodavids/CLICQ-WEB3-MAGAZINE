@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import { OWNER_ADDRESS } from '../constants'
+import { OWNER_ADDRESS } from '../constants/contractUtils'
 
 const Navbar = () => {
   /* create local state to save account information after signin */

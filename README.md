@@ -8,6 +8,21 @@ A fullstack decentralized blog built with Next.js, Polygon, Solidity, IPFS, and 
 
 CLICQ is a decentralized blog that allows users to create, edit, and update posts only if they are the owner of the contract (this can be manipulated to a specific number of authorized wallet addresses from the fron-end). The blog utilizes blockchain technology and smart contracts to ensure the security and integrity of the content on the platform. Additionally, the blog is built with modern technologies such as Next.js, Polygon, and IPFS, making it fast and efficient.
 
+### What the Project aims to solve
+
+Clicq aims to solve the following;
+
+- Enable peer-to-peer sharing of content and content-creation
+- Eliminate the need for a central authority to store and distribute content
+- Connect readers directly to the authors and publishers of content
+- Enable collaboration between authors and publishers from around the world
+- Give authors and publishers the ability to set their own pricing for their content
+- Increase the speed of content distribution and updates
+- Reduce the cost of content distribution and enable authors and publishers to keep more of their profits
+- Increase the transparency of content to readers
+- Allow readers to interact directly with authors and publishers
+- Create an open, democratic platform for content creation and distribution
+
 ### Project Snapshot
 
 ![HomePage view](https://media.licdn.com/dms/image/D4D2CAQHtA-RYTB8tiw/comment-image-shrink_8192_1280/0/1674243142221?e=1674849600&v=beta&t=FAafD6VR4BchMuM5YoFs1FF4ZSgFF9Nsp7D-oi15I4M)

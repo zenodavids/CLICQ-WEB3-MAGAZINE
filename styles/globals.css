@@ -405,6 +405,72 @@ a {
     color-scheme: dark;
   }
 }
+/* *********** Create Article ************************ */
+
+.createArticleHiddenInput {
+  display: none;
+}
+
+.createArticleBannerStyle {
+  max-width: 800px;
+}
+
+.textEditorStyling {
+  margin: 40px auto;
+  padding: 20px;
+
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(9.1px);
+  -webkit-backdrop-filter: blur(9.1px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.createArticleheaderStyle {
+  margin-top: 40px;
+  border: none;
+  outline: none;
+  background-color: inherit;
+  font-size: 44px;
+  font-weight: 400;
+}
+
+.createArticlecontainer {
+  width: 90%;
+  height: auto;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.createArticlebutton {
+  background-color: transparent;
+  margin: 0 0 20px 20px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: inherit;
+  outline: none;
+  border: none;
+}
+
+.createArticlefloat1 {
+  position: fixed;
+  right: 100px;
+  top: 220px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.createArticlefloat2 {
+  position: fixed;
+  right: 250px;
+  top: 220px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* ********************************************************************** */
 /* ================== FXTicker ========================= */
 #FXticker {
   background: #cecece;

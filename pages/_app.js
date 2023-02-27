@@ -1,17 +1,17 @@
-import WalletConnectProvider from '@walletconnect/web3-provider'
 import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
+import WalletConnectProvider from '@walletconnect/web3-provider'
 import 'easymde/dist/easymde.min.css'
 import React from 'react'
 import Link from 'next/link'
-import { OWNER_ADDRESS } from '../constants'
+import { OWNER_ADDRESS } from '../constants/contractUtils'
 import '../styles/globals.css'
 import FxTicker from '../components/FxTicker'
 import { NewsTicker } from '../components/NewsTicker'
-import { AccountContext } from '../context.js'
+import { ShareState } from '../constants/createShareStateContext.js'
 
-class MyApp extends React.Component {
-  // Define a class component named MyApp that extends the React.Component class
+class App extends React.Component {
+  // Define a class component named App that extends the React.Component class
   constructor(props) {
     // Define a constructor method that takes in props as a parameter
     super(props) // Call the constructor of the parent class and pass the props parameter to it
@@ -21,8 +21,8 @@ class MyApp extends React.Component {
     }
   }
 
-  async getWeb3Modal() {
-    // Define an asynchronous function named getWeb3Modal
+  async accessWalletWithWeb3Modal() {
+    // Define an asynchronous function named accessWalletWithWeb3Modal
     const web3Modal = new Web3Modal({
       // Create a new instance of the Web3Modal class and configure it with some options
       cacheProvider: false, // Set the cacheProvider option to false to disable caching of the provider
@@ -45,7 +45,7 @@ class MyApp extends React.Component {
     // Define an asynchronous arrow function named connectWallet
     try {
       // Begin a try-catch block to handle any errors that may occur
-      const web3Modal = await this.getWeb3Modal() // Call the getWeb3Modal function to get an instance of Web3Modal
+      const web3Modal = await this.accessWalletWithWeb3Modal() // Call the accessWalletWithWeb3Modal function to get an instance of Web3Modal
       const web3Connection = await web3Modal.connect() // Connect to the web3 provider using the instance of Web3Modal
       const provider = new ethers.providers.Web3Provider(web3Connection) // Create a new instance of the Web3Provider class using the connected web3 provider
       const accounts = await provider.listAccounts() // Get a list of accounts associated with the connected provider
@@ -111,9 +111,9 @@ class MyApp extends React.Component {
         </nav>
         <div className='body'>
           <div className='container'>
-            <AccountContext.Provider value={ownerWalletAddress}>
+            <ShareState.Provider value={ownerWalletAddress}>
               <Component {...pageProps} />
-            </AccountContext.Provider>{' '}
+            </ShareState.Provider>{' '}
           </div>
         </div>
       </div>
@@ -121,4 +121,4 @@ class MyApp extends React.Component {
   }
 }
 
-export default MyApp
+export default App

@@ -1,6 +1,6 @@
 // Import necessary packages and components
 import { ethers } from 'ethers' // Allows for use of the ethers.js library for Ethereum development
-import { AccountContext } from '../../context' // Imports the AccountContext from a custom context
+import { ShareState } from '../../constants/createShareStateContext' // Imports the ShareState from a custom context
 import { useContext } from 'react' // Allows for use of context in React components
 import { useRouter } from 'next/router' // Allows for routing in Next.js
 import Link from 'next/link' // Allows for creation of links in Next.js
@@ -10,7 +10,7 @@ import {
   SMART_CONTRACT_ABI,
   SMART_CONTRACT_ADDRESS,
   QUICKNODE_HTTP_URL,
-} from '../../constants' // Imports constants used throughout the application
+} from '../../constants/contractUtils' // Imports constants used throughout the application
 
 const infuraIPFSuri = 'https://himarkblog.infura-ipfs.io/ipfs/' // Sets the URL for the IPFS gateway
 
@@ -18,7 +18,7 @@ export default function Article({ article }) {
   const routeToArticlePage = useRouter() // Gets the current route using useRouter hook
   const { id } = routeToArticlePage.query // Gets the ID parameter from the route
 
-  const ownerWalletConnected = useContext(AccountContext) // Gets the connected wallet address from the AccountContext
+  const ownerWalletConnected = useContext(ShareState) // Gets the connected wallet address from the ShareState
 
   // If the page is still loading, show a loading message
   if (routeToArticlePage.isFallback) {

@@ -2,7 +2,7 @@ import {
   SMART_CONTRACT_ABI,
   SMART_CONTRACT_ADDRESS,
   QUICKNODE_HTTP_URL,
-} from '../constants'
+} from '../constants/contractUtils'
 
 export const { articleHeader } = props
 

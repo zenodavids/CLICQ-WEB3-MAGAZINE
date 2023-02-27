@@ -10,7 +10,7 @@ import {
   SMART_CONTRACT_ABI,
   SMART_CONTRACT_ADDRESS,
   QUICKNODE_HTTP_URL,
-} from '../../constants'
+} from '../../constants/contractUtils'
 
 const projectId = '2HR1ziNfwlZQpvJGE5InBYyZw0v'
 const apiKeySecret = 'c415732d27d68169c8d917c924e3e5f6'

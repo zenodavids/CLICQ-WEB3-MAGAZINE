@@ -1,30 +1,15 @@
-import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import Link from 'next/link'
-import { css } from '@emotion/css'
-import { useContext } from 'react'
-import { AccountContext } from '../context'
 import MagazineName from '../components/MagazineName'
 import Footer from '../components/Footer'
 import {
   SMART_CONTRACT_ABI,
   SMART_CONTRACT_ADDRESS,
   QUICKNODE_HTTP_URL,
-} from '../constants'
+} from '../constants/contractUtils'
 
 // This component receives props that include an array of articles.
-export default function MagazineMainPage(props) {
-  // We use the useContext hook to get access to the current account in the AccountContext.
-  const account = useContext(AccountContext)
-
-  // We use the useRouter hook to get access to the router instance.
-  const createArticleRouter = useRouter()
-
-  // This function is called when the user clicks on the create article button, it navigates them to the create article page.
-  async function navigate() {
-    createArticleRouter.push('/createarticle')
-  }
-
+const MagazineMainPage = (props) => {
   const { articles } = props
 
   // This component renders a div containing the magazine name, left and right columns with articles, and a footer.
@@ -144,14 +129,13 @@ export default function MagazineMainPage(props) {
   )
 }
 
+export default MagazineMainPage
+
 // This function is asynchronous and will return server-side props.
 export async function getServerSideProps() {
-  let provider
-
   // We are creating a new instance of the JSON RPC provider from the ethers library.
   // We pass in a URL endpoint for the Ethereum network we want to connect to.
-  provider = new ethers.providers.JsonRpcProvider(
-    // "https://rpc-mumbai.matic.today"
+  let provider = new ethers.providers.JsonRpcProvider(
     QUICKNODE_HTTP_URL // Here, we are using the URL stored in the QUICKNODE_HTTP_URL variable to connect to a specific network.
   )
 

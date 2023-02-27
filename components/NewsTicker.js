@@ -6,7 +6,7 @@ import {
   SMART_CONTRACT_ADDRESS,
   QUICKNODE_HTTP_URL,
   OWNER_ADDRESS,
-} from '../constants'
+} from '../constants/contractUtils'
 
 export const NewsTicker = () => {
   // Declare a state variable called "articles" and a function "setArticles" to update the value of "articles"
