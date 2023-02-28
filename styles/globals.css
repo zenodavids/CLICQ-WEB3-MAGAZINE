@@ -479,6 +479,7 @@ a {
 }
 
 /* ********************************************************************** */
+
 /* ================== FXTicker ========================= */
 #FXticker {
   background: #cecece;
@@ -498,7 +499,7 @@ a {
   margin: 0px;
   list-style: none;
   white-space: nowrap;
-  /*  news speed  */
+
   animation: scroll 20s linear 0s infinite;
   position: absolute;
 }
@@ -540,7 +541,6 @@ a {
   }
 }
 
-/* Custom CSS */
 #FXticker {
   width: 100%;
   margin: auto;

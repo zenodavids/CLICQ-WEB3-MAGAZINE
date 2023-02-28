@@ -104,11 +104,19 @@ const MagazineMainPage = (props) => {
               .reverse()}
           </div>
         </div>
-
+        {/* right column */}
         <div className='rightcolumn'>
+          {/* Adverts */}
+          <div className='card boxShadow'>
+            <h3>ADVERTISEMENT</h3>
+            <div className='fakeimg' style={{ textAlign: 'center' }}>
+              <h1>Adverts</h1>
+            </div>
+          </div>
+
+          {/* Latest News */}
           <div className='card boxShadow'>
             <h3>Latest</h3>
-
             {articles
               .map((article, index) => (
                 // eslint-disable-next-line react/jsx-key

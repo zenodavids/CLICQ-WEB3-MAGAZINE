@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { OWNER_ADDRESS } from '../constants/contractUtils'
 import '../styles/globals.css'
 import FxTicker from '../components/FxTicker'
+import AlphavantageAPI from '../components/AlphavantageAPI'
 import { NewsTicker } from '../components/NewsTicker'
 import { ShareState } from '../constants/createShareStateContext.js'
 
@@ -69,6 +70,7 @@ class App extends React.Component {
 
         {/* Render an FxTicker component */}
         <FxTicker />
+        <AlphavantageAPI />
 
         {/* Create a nav element with the class name 'navbar' */}
         <nav className='navbar'>
