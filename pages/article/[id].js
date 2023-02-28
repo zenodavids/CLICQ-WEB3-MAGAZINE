@@ -111,10 +111,10 @@ export const getStaticProps = async ({ params }) => {
   const { id } = params
 
   // Set the IPFS URL based on the ID parameter
-  const ipfsUrl = `${infuraIPFSuri}${id}`
+  const clicqIPFSmetadata = `${infuraIPFSuri}${id}`
 
   // Fetch the data from the IPFS URL
-  const response = await fetch(ipfsUrl)
+  const response = await fetch(clicqIPFSmetadata)
   const data = await response.json()
 
   // If the data contains a articleBanner property, append the IPFS URL to it

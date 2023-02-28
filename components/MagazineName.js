@@ -8,7 +8,7 @@ const BlogTitle = () => {
             <span className='title__shadow' aria-hidden='true'>
               ClicQ
             </span>
-            <span className='title__text'>WEB3 BLOG</span>
+            <span className='title__text'>CLICQ</span>
           </h2>
         </Link>
       </div>

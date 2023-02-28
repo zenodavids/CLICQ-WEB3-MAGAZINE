@@ -37,7 +37,7 @@ const CreateArticle = () => {
   const { header, body } = article
 
   // Define a function that updates the `article` state object when the user types in the input fields
-  const onChange = (e) => {
+  const updateState = (e) => {
     setArticle(() => ({ ...article, [e.target.name]: e.target.value }))
   }
 
@@ -138,7 +138,7 @@ const CreateArticle = () => {
       )}
       {/* Define an input for the header with a placeholder and initial value */}
       <input
-        onChange={onChange}
+        onChange={updateState}
         name='header'
         placeholder='headerTag : HEADER'
         value={article.header}
