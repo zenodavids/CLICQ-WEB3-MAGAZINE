@@ -33,6 +33,8 @@ Clicq aims to solve the following;
 - Allow readers to interact directly with authors and publishers
 - Create an open, democratic platform for content creation and distribution
 
+All these that are not added yet will be added as my knowledge increases.
+
 ### Project Snapshot
 
 ![HomePage view](https://media.licdn.com/dms/image/D4D2CAQHtA-RYTB8tiw/comment-image-shrink_8192_1280/0/1674243142221?e=1674849600&v=beta&t=FAafD6VR4BchMuM5YoFs1FF4ZSgFF9Nsp7D-oi15I4M)
