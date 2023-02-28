@@ -12,7 +12,7 @@ import {
 
 const EditArticle = () => {
   const [article, setArticle] = useState(null)
-  const [editing, setEditing] = useState(true)
+  const [ModifyArticle, setModifyArticle] = useState(true)
 
   // Get the current route from the Next.js router
   const router = useRouter()
@@ -125,11 +125,11 @@ const EditArticle = () => {
     ssr: false,
   })
 
-  // Renders the article editing form and the article preview
+  // Renders the article ModifyArticle form and the article preview
   return (
     <div className='createArticlecontainer boxShadow'>
-      {/* If the user is currently editing the article, display the markdown editor */}
-      {editing && (
+      {/* If the user is currently ModifyArticle the article, display the markdown editor */}
+      {ModifyArticle && (
         <div>
           <input
             onChange={(e) => setArticle({ ...article, header: e.target.value })}
@@ -154,8 +154,8 @@ const EditArticle = () => {
         </div>
       )}
 
-      {/* If the user is not editing, display the article preview */}
-      {!editing && (
+      {/* If the user is not ModifyArticle, display the article preview */}
+      {!ModifyArticle && (
         <div>
           {/* If the article has a cover image, display it */}
           {article.articleBannerPath && (
