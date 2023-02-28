@@ -68,10 +68,6 @@ class App extends React.Component {
         {/* Render a NewsTicker component */}
         <NewsTicker />
 
-        {/* Render an FxTicker component */}
-        {/* <FxTicker /> */}
-        <AlphavantageAPI />
-
         {/* Create a nav element with the class name 'navbar' */}
         <nav className='navbar'>
           {/* Create a div element with the class name 'logo'*/}
@@ -111,6 +107,9 @@ class App extends React.Component {
             </div>
           </ul>
         </nav>
+        {/* Render an FxTicker component */}
+        {/* <FxTicker /> */}
+        <AlphavantageAPI />
         <div className='body'>
           <div className='container'>
             <ShareState.Provider value={ownerWalletAddress}>
