@@ -44,37 +44,80 @@ const AlphavantageAPI = () => {
   }
 
   return (
-    <div id='FXticker'>
-      <div className='title'>
-        USD/{selectedToken}:{' '}
-        <select
-          name='tokens'
-          id='tokens'
-          value={selectedToken}
-          onChange={handleTokenChange}
-          style={{ background: 'none', color: '#777', border: 'none' }}
-        >
-          <option value='BTC'>Bitcoin</option>
-          <option value='ETH'>Ethereum</option>
-          <option value='LTC'>Litecoin</option>
-        </select>
-      </div>
-
-      <ul>
-        <li className='tickerItem'>OPEN: {prices['1a. open (USD)']}</li>
-        <li className='tickerItem'>
-          HIGH: {prices['2a. high (USD)']}
-          <span className='upArrow'>{<FaLongArrowAltUp />}</span>
-        </li>
-        <li className='tickerItem'>
-          LOW: {prices['3a. low (USD)']}
-          <span className='downArrow'>{<FaLongArrowAltDown />}</span>
-        </li>
-        <li className='tickerItem'>CLOSE: {prices['4a. close (USD)']}</li>
-        <li className='tickerItem'>VOLUME: {prices['5. volume']}</li>
-      </ul>
-    </div>
+    <>
+      <table id='marketCap'>
+        <tr>
+          <th>Market Cap</th>
+          <th>OPEN</th>
+          <th>HIGH</th>
+          <th>LOW</th>
+          <th>CLOSE</th>
+          <th>VOLUME</th>
+        </tr>
+        <tr>
+          <td>
+            USD/{selectedToken}:{' '}
+            <select
+              name='tokens'
+              id='tokens'
+              value={selectedToken}
+              onChange={handleTokenChange}
+              style={{ background: 'none', color: '#777', border: 'none' }}
+            >
+              <option value='BTC'>Bitcoin</option>
+              <option value='ETH'>Ethereum</option>
+              <option value='LTC'>Litecoin</option>
+            </select>
+          </td>
+          <td>{Number(prices['1a. open (USD)']).toFixed(2)}</td>
+          <td>{Number(prices['2a. high (USD)']).toFixed(2)}</td>
+          <td>{Number(prices['3a. low (USD)']).toFixed(2)}</td>
+          <td>{Number(prices['4a. close (USD)']).toFixed(2)}</td>
+          <td>{Number(prices['5. volume']).toFixed(2)}</td>
+        </tr>
+        <tr></tr>
+      </table>
+    </>
   )
 }
 
 export default AlphavantageAPI
+{
+  /* <div id='FXticker'>
+  <div className='title'>
+    USD/{selectedToken}:{' '}
+    <select
+      name='tokens'
+      id='tokens'
+      value={selectedToken}
+      onChange={handleTokenChange}
+      style={{ background: 'none', color: '#777', border: 'none' }}
+    >
+      <option value='BTC'>Bitcoin</option>
+      <option value='ETH'>Ethereum</option>
+      <option value='LTC'>Litecoin</option>
+    </select>
+  </div>
+
+  <ul>
+    <li className='tickerItem'>
+      OPEN: {Number(prices['1a. open (USD)']).toFixed(2)}
+    </li>
+    <li className='tickerItem'>
+      HIGH: {Number(prices['2a. high (USD)']).toFixed(2)}
+      <span className='upArrow'>{<FaLongArrowAltUp />}</span>
+    </li>
+    <li className='tickerItem'>
+      LOW: {Number(prices['3a. low (USD)']).toFixed(2)}
+      <span className='downArrow'>{<FaLongArrowAltDown />}</span>
+    </li>
+    <li className='tickerItem'>
+      CLOSE: {Number(prices['4a. close (USD)']).toFixed(2)}
+    </li>
+
+    <li className='tickerItem'>
+      VOLUME: {Number(prices['5. volume']).toFixed(2)}
+    </li>
+  </ul>
+</div> */
+}
