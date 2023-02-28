@@ -3,6 +3,8 @@ import Link from 'next/link'
 import MagazineName from '../components/MagazineName'
 import Greetings from '../components/Greetings'
 import Footer from '../components/Footer'
+import Advert from '../components/Advert'
+import NewData from '../components/NewsDataAPI'
 import {
   SMART_CONTRACT_ABI,
   SMART_CONTRACT_ADDRESS,
@@ -107,13 +109,8 @@ const MagazineMainPage = (props) => {
         {/* right column */}
         <div className='rightcolumn'>
           {/* Adverts */}
-          <div className='card boxShadow'>
-            <h3>ADVERTISEMENT</h3>
-            <div className='fakeimg' style={{ textAlign: 'center' }}>
-              <h1>Adverts</h1>
-            </div>
-          </div>
-
+          <NewData />
+          <Advert />
           {/* Latest News */}
           <div className='card boxShadow'>
             <h3>Latest</h3>
