@@ -1,6 +1,7 @@
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import MagazineName from '../components/MagazineName'
+import Greetings from '../components/Greetings'
 import Footer from '../components/Footer'
 import {
   SMART_CONTRACT_ABI,
@@ -20,6 +21,8 @@ const MagazineMainPage = (props) => {
 
       {/* This div contains the left and right columns for the articles. */}
       <div className='row'>
+        <Greetings position='right' />
+
         {/* Left column */}
         <div className='leftcolumn'>
           {/* This div contains a grid of articles. */}
