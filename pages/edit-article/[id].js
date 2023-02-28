@@ -12,7 +12,7 @@ import {
 
 const EditArticle = () => {
   const [article, setArticle] = useState(null)
-  const [ModifyArticle, setModifyArticle] = useState(true)
+  const [editing, setEditing] = useState(true)
 
   // Get the current route from the Next.js router
   const router = useRouter()
@@ -118,15 +118,18 @@ const EditArticle = () => {
     router.push('/')
   }
 
+  // If there is no article object, return null
+  if (!article) return null
+
   const TextEditor = dynamic(() => import('react-simplemde-editor'), {
     ssr: false,
   })
 
-  // Renders the article ModifyArticle form and the article preview
+  // Renders the article editing form and the article preview
   return (
     <div className='createArticlecontainer boxShadow'>
-      {/* If the user is currently ModifyArticle the article, display the markdown editor */}
-      {ModifyArticle && (
+      {/* If the user is currently editing the article, display the markdown editor */}
+      {editing && (
         <div>
           <input
             onChange={(e) => setArticle({ ...article, header: e.target.value })}
@@ -151,8 +154,8 @@ const EditArticle = () => {
         </div>
       )}
 
-      {/* If the user is not ModifyArticle, display the article preview */}
-      {!ModifyArticle && (
+      {/* If the user is not editing, display the article preview */}
+      {!editing && (
         <div>
           {/* If the article has a cover image, display it */}
           {article.articleBannerPath && (
