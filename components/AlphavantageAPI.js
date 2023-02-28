@@ -47,7 +47,7 @@ const AlphavantageAPI = () => {
     <>
       <table id='marketCap'>
         <tr>
-          <th>Market Cap</th>
+          <th style={{ background: 'red', color: 'white' }}>Market Cap</th>
           <th>OPEN</th>
           <th>HIGH</th>
           <th>LOW</th>
