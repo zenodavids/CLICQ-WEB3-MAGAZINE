@@ -71,7 +71,7 @@ class Footer extends Component {
           </div>
           <div className='bottom'>
             <center>
-              <span className='credit'>Created By Chidozie</span>
+             
               <span className='far fa-copyright'></span>
               <span> {date} All rights reserved.</span>
             </center>
