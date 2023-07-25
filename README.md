@@ -112,10 +112,8 @@ npm run dev
 ### License
 
 - This project is licensed under the **MIT** License.
-- **Grandida** is a License partner.
 
 ### Attribution
 
 Some parts of the code were adapted from OpenZeppelin
 
-> **DO NOT USE WITHOUT THE PERMISSION OF GRANDIDA**
